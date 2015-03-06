@@ -21,9 +21,9 @@ from  repaint import *
 import math, threading, time
 
 def update():
-    global printed, check_u, check_d, check_l, check_r, knight, health_pan, mana_pan, stamina_pan, images, floar, right_hand, helmet
+    global printed, check_u, check_d, check_l, check_r, knight, health_pan, mana_pan, stamina_pan, images, floar, right_hand
     
-    printed, check_u, check_d, check_l, check_r, knight, health_pan, mana_pan, stamina_pan, right_hand, helmet =  repaint(knight, panel, level, check_u, check_d, check_l, check_r, health_pan, mana_pan, stamina_pan, v_loot, printed, images, floar, stone, right_hand, helmet)
+    printed, check_u, check_d, check_l, check_r, knight, health_pan, mana_pan, stamina_pan, right_hand =  repaint(knight, panel, level, check_u, check_d, check_l, check_r, health_pan, mana_pan, stamina_pan, v_loot, printed, images, floar, stone, right_hand)
 
 class mob:
     global knight, level
@@ -95,12 +95,7 @@ class hero:
         
         if abs(self.x - end[0]) + abs(self.y - end[1]) <= 1:
             self.levels_gone[self.level] = [level, self.x, self.y, chests, start, end, floar, stone]
-            
-            if self.levels_gone[self.level + 1] is None:
-                level, x, y, chests, start, end, floar, stone = lvl(self.level + 1)
-            else:
-                level, x, y, chests, start, end, floar, stone = self.levels_gone[self.level + 1]
-                
+            level, x, y, chests, start, end, floar, stone = lvl(self.level + 1)
             self.x = x
             self.y = y
             self.level += 1
@@ -108,8 +103,7 @@ class hero:
             time.sleep(0.5)
             return update()
         
-        if abs(self.x - start[0]) + abs(self.y - start[1]) <= 1:    
-            self.levels_gone[self.level] = [level, self.x, self.y, chests, start, end, floar, stone]            
+        if abs(self.x - start[0]) + abs(self.y - start[1]) <= 1:                    
             level, x, y, chests, start, end, floar, stone = self.levels_gone[self.level - 1]
             self.x = x
             self.y = y
@@ -202,11 +196,11 @@ check_u, check_d, check_l, check_r = True, True, True, True
 panel.create_text(10, 200, text="Helmet: ", anchor=NW)
 panel.create_text(10, 220, text="Armory: ", anchor=NW)
 panel.create_text(10, 240, text="Boots: ", anchor=NW)
-panel.create_text(10, 260, text="Jeweler: ", anchor=NW)
+panel.create_text(10, 260, text="Jewel: ", anchor=NW)
 panel.create_text(195, 200, text="Left hand: ", anchor=NW)
 panel.create_text(195, 220, text="Right hand: ", anchor=NW)
-panel.create_text(195, 240, text="Bowl: ", anchor=NW)
-right_hand, helmet = None, None
+panel.create_text(195, 240, text="Bow: ", anchor=NW)
+right_hand = None
 update()
 
 root.bind('<e>', knight.interact)

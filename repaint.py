@@ -33,12 +33,11 @@ def check(i, j, check_u, check_d, check_l, check_r):
             
     return check_u, check_d, check_l, check_r
 
-def clean(printed, panel, health_pan, mana_pan, stamina_pan, knight, right_hand, helmet):
+def clean(printed, panel, health_pan, mana_pan, stamina_pan, knight, right_hand):
     panel.delete(health_pan)
     panel.delete(mana_pan)
     panel.delete(stamina_pan)
     panel.delete(right_hand)    
-    panel.delete(helmet)    
     
     for i in range(len(knight.printed_loot)):
         panel.delete(knight.printed_loot[i])
@@ -49,9 +48,9 @@ def clean(printed, panel, health_pan, mana_pan, stamina_pan, knight, right_hand,
     printed = [] 
     return printed, panel
 
-def repaint(knight, panel, level, check_u, check_d, check_l, check_r, health_pan, mana_pan, stamina_pan, v_loot, printed, images, floar, stone, r_h, helmet):
+def repaint(knight, panel, level, check_u, check_d, check_l, check_r, health_pan, mana_pan, stamina_pan, v_loot, printed, images, floar, stone, r_h):
     
-    printed, panel = clean(printed, panel, health_pan, mana_pan, stamina_pan, knight, r_h, helmet)
+    printed, panel = clean(printed, panel, health_pan, mana_pan, stamina_pan, knight, r_h)
     
     health_pan = panel.create_rectangle(347, 149, 333, 63 + ((100 - knight.health )/ 100) * 86, fill="red")
     mana_pan = panel.create_rectangle(379, 149, 365, 63 + ((100 - knight.mana )/ 100) * 86, fill="blue")
@@ -60,9 +59,6 @@ def repaint(knight, panel, level, check_u, check_d, check_l, check_r, health_pan
     
     if knight.right_hand != None:
         r_h = panel.create_text(270, 220, text=knight.right_hand.name, fill="blue", anchor=NW)        
-    
-    if knight.helmet != None:
-        helmet = panel.create_text(60, 200, text=knight.helmet.name, fill="blue", anchor=NW)                
     
     for i in range(len(knight.loot)):
         knight.printed_loot.append(panel.create_image(222 + 17 * i, 166, anchor=NE, image=v_loot[knight.loot[i].image]))
@@ -97,4 +93,4 @@ def repaint(knight, panel, level, check_u, check_d, check_l, check_r, health_pan
                 check_u, check_d, check_l, check_r = check(i, j, check_u, check_d, check_l, check_r)
                 printed.append(panel.create_image(27 + 80  + j * 16, 91 + i * 16, anchor=NE, image=images[11]))   
                 
-    return printed, check_u, check_d, check_l, check_r, knight, health_pan, mana_pan, stamina_pan, r_h, helmet
+    return printed, check_u, check_d, check_l, check_r, knight, health_pan, mana_pan, stamina_pan, r_h
