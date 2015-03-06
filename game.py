@@ -21,9 +21,9 @@ from  repaint import *
 import math, threading, time
 
 def update():
-    global printed, check_u, check_d, check_l, check_r, knight, health_pan, mana_pan, stamina_pan, images, floar, right_hand
+    global printed, ch, knight, health_pan, mana_pan, stamina_pan, images, floar, right_hand
     
-    printed, check_u, check_d, check_l, check_r, knight, health_pan, mana_pan, stamina_pan, right_hand =  repaint(knight, panel, level, check_u, check_d, check_l, check_r, health_pan, mana_pan, stamina_pan, v_loot, printed, images, floar, stone, right_hand)
+    printed, ch, knight, health_pan, mana_pan, stamina_pan, right_hand =  repaint(knight, panel, level, ch, health_pan, mana_pan, stamina_pan, v_loot, printed, images, floar, stone, right_hand)
 
 class mob:
     global knight, level
@@ -60,27 +60,27 @@ class hero:
         self.y = y_pos
     
     def up(self, event):
-        if check_u and self.stamina > 0:
+        if ch.u and self.stamina > 0:
             self.y -= 1
             self.stamina -= 1
         update()
         
     def down(self, event):
-        if check_d and self.stamina > 0:
+        if ch.d and self.stamina > 0:
             self.y += 1
             self.stamina -= 1
             
         update()
         
     def left(self, event):
-        if check_l and self.stamina > 0:
+        if ch.l and self.stamina > 0:
             self.x -= 1
             self.stamina -= 1
             
         update()
         
     def right(self, event):
-        if check_r and self.stamina > 0:
+        if ch.r and self.stamina > 0:
             self.x += 1
             self.stamina -= 1
             
@@ -165,6 +165,7 @@ root.resizable(width=False, height=False)
 panel = Canvas(root, width = 430, height = 280)
 panel.create_rectangle(10, 10, 186, 186, fill="black")
 panel.grid(row=1,column=0)
+
 images = [PhotoImage(file="src/stones/stone.gif"), #0
           PhotoImage(file="src/mobs/hero.gif"),    #1
           PhotoImage(file="src/floar/floar.gif"),  #2
@@ -180,6 +181,10 @@ images = [PhotoImage(file="src/stones/stone.gif"), #0
           PhotoImage(file="src/loot/helmet.gif")   #12
           ]
 
+v_loot = [PhotoImage(file="src/loot/sword1.gif"), 
+          PhotoImage(file="src/loot/health1.gif"),
+          PhotoImage(file="src/loot/helmet.gif")]
+
 img = PhotoImage(file="src/system/char.gif")
 panel.create_image(420, 10, anchor=NE, image=img)
 printed = []
@@ -191,8 +196,8 @@ health_pan, mana_pan, stamina_pan = None, None, None
 
 img1 = PhotoImage(file="src/system/slot.gif")
 panel.create_image(410, 165, anchor=NE, image=img1)
-v_loot = [PhotoImage(file="src/loot/sword1.gif"), PhotoImage(file="src/loot/health1.gif"), PhotoImage(file="src/loot/helmet.gif")]
-check_u, check_d, check_l, check_r = True, True, True, True
+
+ch = checkin() 
 panel.create_text(10, 200, text="Helmet: ", anchor=NW)
 panel.create_text(10, 220, text="Armory: ", anchor=NW)
 panel.create_text(10, 240, text="Boots: ", anchor=NW)
