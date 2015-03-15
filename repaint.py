@@ -17,8 +17,17 @@ Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA"""
 
 from tkinter import *
 
+class pan:
+    health = None
+    mana = None
+    stamina = None 
+
 class checkin:
     u, d, l, r = True, True, True, True
+
+class clothe:
+    right_hand = None
+    helmet = None
 
 def check(i, j, ch):
     if abs(i) + abs(j) < 2:
@@ -34,11 +43,13 @@ def check(i, j, ch):
         if j < 0:
             ch.l = False  
 
-def clean(printed, panel, health_pan, mana_pan, stamina_pan, knight, right_hand):
-    panel.delete(health_pan)
-    panel.delete(mana_pan)
-    panel.delete(stamina_pan)
-    panel.delete(right_hand)    
+def clean(printed, panel, pan, knight, main_clothe):
+    panel.delete(pan.health)
+    panel.delete(pan.mana)
+    panel.delete(pan.stamina)
+    
+    panel.delete(main_clothe.right_hand)    
+    panel.delete(main_clothe.helmet)    
     
     for i in range(len(knight.printed_loot)):
         panel.delete(knight.printed_loot[i])
@@ -49,17 +60,20 @@ def clean(printed, panel, health_pan, mana_pan, stamina_pan, knight, right_hand)
     printed = [] 
     return printed, panel
 
-def repaint(knight, panel, level, ch, health_pan, mana_pan, stamina_pan, v_loot, printed, images, floar, stone, r_h):
+def repaint(knight, panel, level, ch, pan, v_loot, printed, images, floar, stone, main_clothe):
     
-    printed, panel = clean(printed, panel, health_pan, mana_pan, stamina_pan, knight, r_h)
+    printed, panel = clean(printed, panel, pan, knight, main_clothe)
     
-    health_pan = panel.create_rectangle(347, 149, 333, 63 + ((100 - knight.health )/ 100) * 86, fill="red")
-    mana_pan = panel.create_rectangle(379, 149, 365, 63 + ((100 - knight.mana )/ 100) * 86, fill="blue")
-    stamina_pan = panel.create_rectangle(411, 149, 399, 63 + ((100 - knight.stamina )/ 100) * 86, fill="green")    
+    pan.health = panel.create_rectangle(347, 149, 333, 63 + ((100 - knight.health )/ 100) * 86, fill="red")
+    pan.mana = panel.create_rectangle(379, 149, 365, 63 + ((100 - knight.mana )/ 100) * 86, fill="blue")
+    pan.stamina = panel.create_rectangle(411, 146, 399, 63 + ((100 - knight.stamina )/ 100) * 83, fill="green")    
     ch = checkin() 
     
     if knight.right_hand != None:
-        r_h = panel.create_text(270, 220, text=knight.right_hand.name, fill="blue", anchor=NW)        
+        main_clothe.right_hand = panel.create_text(270, 220, text=knight.right_hand.name, fill="blue", anchor=NW)        
+    
+    if knight.helmet != None:
+        main_clothe.helmet = panel.create_text(60, 200, text=knight.helmet.name, fill="blue", anchor=NW)            
     
     for i in range(len(knight.loot)):
         knight.printed_loot.append(panel.create_image(222 + 17 * i, 166, anchor=NE, image=v_loot[knight.loot[i].image]))
@@ -95,4 +109,4 @@ def repaint(knight, panel, level, ch, health_pan, mana_pan, stamina_pan, v_loot,
                 check(i, j, ch)
                 printed.append(panel.create_image(x, y, anchor=NE, image=images[11]))   
                 
-    return printed, ch, knight, health_pan, mana_pan, stamina_pan, r_h
+    return printed, ch, knight

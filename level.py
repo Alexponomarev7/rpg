@@ -15,6 +15,11 @@ GNU, опубликованной Фондом Свободного ПО; либ
 вместе с этой программой; если нет, напишите в Free Software Foundation,
 Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA"""
 
+class mob:
+    health = 100
+    
+        
+
 class sword:
     damage = None
     health = None
@@ -54,13 +59,14 @@ def lvl(const):
     if const == 1:
         
         f_r = open('./levels/level_1.txt', 'r')
-        lvl1 = []
-        
-        for i in range(25):
-            lvl1.append(list(f_r.readline()))
+        lvl1 = [list(line) for line in f_r]
         
         f_r.close()
-        return lvl1, 5, 12, [[17, 5, sword(20, 50, 0, "usual sword")], [17, 19, heal(50, 1)]], (-1, -1), (18, 12), 2, 0
+        
+        loot = [[17, 5, sword(20, 50, 0, "usual sword")],
+                [17, 19, heal(50, 1)]]
+        
+        return lvl1, 5, 12, loot, (-1, -1), (18, 12), 2, 0
     elif const == 2:
         
         f_r = open('./levels/level_2.txt', 'r')
@@ -79,6 +85,9 @@ def lvl(const):
         for i in range(25):
             lvl3.append(list(f_r.readline()))
                         
-        f_r.close()          
-        return lvl3, 6, 5, [[5, 19, helmet(10, 100, 2, "usual helmet")]], (6, 4), (6, 20), 9, 10     
+        f_r.close()        
+        
+        loot = [[5, 19, helmet(10, 100, 2, "usual helmet")]]
+        
+        return lvl3, 6, 5, loot, (6, 4), (6, 20), 9, 10     
 

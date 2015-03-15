@@ -21,9 +21,9 @@ from  repaint import *
 import math, threading, time
 
 def update():
-    global printed, ch, knight, health_pan, mana_pan, stamina_pan, images, floar, right_hand
+    global printed, ch, knight, pan, images, floar, main_clothe
     
-    printed, ch, knight, health_pan, mana_pan, stamina_pan, right_hand =  repaint(knight, panel, level, ch, health_pan, mana_pan, stamina_pan, v_loot, printed, images, floar, stone, right_hand)
+    printed, ch, knight =  repaint(knight, panel, level, ch, pan, v_loot, printed, images, floar, stone, main_clothe)
 
 class mob:
     global knight, level
@@ -60,12 +60,14 @@ class hero:
         self.y = y_pos
     
     def up(self, event):
+        images[1] = PhotoImage(file="src/mobs/hero1.gif")
         if ch.u and self.stamina > 0:
             self.y -= 1
             self.stamina -= 1
         update()
         
     def down(self, event):
+        images[1] = PhotoImage(file="src/mobs/hero.gif")    
         if ch.d and self.stamina > 0:
             self.y += 1
             self.stamina -= 1
@@ -153,7 +155,8 @@ class hero:
                     self.armor += self.helmet.armory
                     print(self.armor)   
             elif self.loot[int(event.keysym) - 1].itype == "heal":
-                self.health = min(100, self.health + self.loot[int(event.keysym) - 1].heal)
+                new_heal = self.loot[int(event.keysym) - 1].heal
+                self.health = min(100, self.health + new_heal)
                 del(self.loot[int(event.keysym) - 1])
                     
         update()
@@ -192,7 +195,7 @@ printed = []
 level, x, y, chests, start, end, floar, stone = lvl(1)
 knight = hero(x, y)
 
-health_pan, mana_pan, stamina_pan = None, None, None
+pan = pan()
 
 img1 = PhotoImage(file="src/system/slot.gif")
 panel.create_image(410, 165, anchor=NE, image=img1)
@@ -205,7 +208,7 @@ panel.create_text(10, 260, text="Jewel: ", anchor=NW)
 panel.create_text(195, 200, text="Left hand: ", anchor=NW)
 panel.create_text(195, 220, text="Right hand: ", anchor=NW)
 panel.create_text(195, 240, text="Bow: ", anchor=NW)
-right_hand = None
+main_clothe = clothe()
 update()
 
 root.bind('<e>', knight.interact)
